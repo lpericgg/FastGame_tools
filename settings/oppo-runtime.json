@@ -1,0 +1,17 @@
+{
+  "certificatePath": "H:\\project\\AdventureTour_2.0.9\\certificate.pem",
+  "deviceOrientation": "landscape",
+  "disabledMode": "",
+  "icon": "F:\\fastGameLogo\\tgllx.png",
+  "logLevel": "log",
+  "minPlatformVersion": "1040",
+  "name": "笨拙攀登者",
+  "npmPath": "",
+  "package": "com.zsfz.bzpdz.kyx.nearme.gamecenter",
+  "privatePath": "H:\\project\\AdventureTour_2.0.9\\private.pem",
+  "tinyPackageMode": false,
+  "tinyPackageServer": "",
+  "useDebugKey": false,
+  "versionCode": "3",
+  "versionName": "3.0"
+}
