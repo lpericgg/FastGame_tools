@@ -1,6 +1,7 @@
 //todo eric_gg
 var oppoAD = require("oppoAD");
 var vivoAD = require("vivoAD");
+var ttAD = require("ttAD");
 var IdConfig = require("IdConfig");  //广告id配置文件
 
 var nowChannel = null;  //当前渠道的名称
@@ -23,6 +24,10 @@ var ADAdapter = {
                 this._AdFile = vivoAD;
                 nowChannel = "vivo";
             break;
+            case "tt":
+                this._AdFile = ttAD;
+                nowChannel = "tt";
+            break;
             default:console.log("平台没有广告，不需要初始化");return;
         }
     },
@@ -38,10 +43,11 @@ var ADAdapter = {
         }
     },
 
-    createBanner(){
+    //头条可控width宽度   128 - 208   可不传   
+    createBanner(width){
         if(!this.alreadyInit()) return;
         let id = IdConfig[nowChannel + "_id"].bannerId;
-        this._AdFile.createBanner(id);
+        this._AdFile.createBanner(id,width);
     },
 
     createInsert(){

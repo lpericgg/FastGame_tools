@@ -16,5 +16,12 @@ const vivo_id = {
     videoId:"1168e43ef7d3420d8dd830f783dba96d",
     insertId:"5213157ab22341b6a3465124005f33be"
 };
-const IdConfig = {oppo_id,vivo_id};
+
+const tt_id = {
+    bannerId:"8gjk5b78gk9799710b",
+    nativeId:"not support",
+    videoId:"1ji1j09ngi4h5c6r8a",
+    insertId:"not support"
+};
+const IdConfig = {oppo_id,vivo_id,tt_id};
 module.exports = IdConfig;
