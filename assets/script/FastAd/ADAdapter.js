@@ -10,23 +10,22 @@ var NativeAdComponent = null;  //原生广告节点
 
 var ADAdapter = {
     //初始化快游戏广告组件   
-    //参数  channel：广告渠道   appid:后台值，  debug ：是否展示debug信息（可不填）  
-    initFastAd(channel,appid,debug){
-        this._channel = channel;
+    //参数  channel：广告渠道  debug ：是否展示debug信息（可不填）  
+    initFastAd(channel,debug){
         this._AdFile = null;
+        nowChannel = channel;
+        if(IdConfig[nowChannel + "_id"])
+            this._appId = IdConfig[nowChannel + "_id"].appId;
         switch(channel){
             case "oppo":
-                oppoAD.initAD(appid,debug);
                 this._AdFile = oppoAD;
-                nowChannel = "oppo";
+                oppoAD.initAD(this._appId,debug);
             break;
             case "vivo":
                 this._AdFile = vivoAD;
-                nowChannel = "vivo";
             break;
             case "tt":
                 this._AdFile = ttAD;
-                nowChannel = "tt";
             break;
             default:console.log("平台没有广告，不需要初始化");return;
         }
@@ -34,11 +33,11 @@ var ADAdapter = {
 
     //是否初始化广告
     alreadyInit(){
-        if(this._channel && this._AdFile){
+        if(nowChannel && this._AdFile){
             return true;
         }
         else{
-            console.log("请先调用initFastAd初始化广告");
+            console.log("请先调用initFastAd初始化广告或检查传入渠道是否正确");
             return false;
         }
     },
@@ -99,3 +98,29 @@ var ADAdapter = {
     },
 };
 module.exports = ADAdapter;
+
+
+// 刷新banner方法  供参考  先调用showBanner 在计时器中循环调用updatebanner
+/*
+this.showBannerAd();
+this.schedule(function(){
+    this.updateBanner();
+},5);
+
+showBannerAd(){
+    var myDate = new Date(); 
+    let newData = myDate.getTime();
+    cc.sys.localStorage.setItem("AddBannerTime",newData);  
+    // 展示banner
+},
+
+updateBanner(){
+    var oldData =  cc.sys.localStorage.getItem("AddBannerTime") ||　0;  
+    var myDate = new Date(); 
+    let newData = myDate.getTime();
+    if ((parseInt(newData) - oldData)/1000 >= 180){
+        this.showBannerAd();
+    }
+},
+
+*/
