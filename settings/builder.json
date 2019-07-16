@@ -14,7 +14,7 @@
     "orientation": "portrait",
     "subContext": ""
   },
-  "encryptJs": false,
+  "encryptJs": true,
   "excludeScenes": [],
   "fb-instant-games": {},
   "includeSDKBox": false,

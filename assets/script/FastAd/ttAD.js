@@ -78,8 +78,9 @@ var ttAD = {
             });
         });
 
-        videoAd.onClose(res => {
+        let closeFunc = function(res){
             res.str = str;
+            console.log(res);
             if (res.isEnded) {
                 res.videoState = 1;
             }
@@ -87,15 +88,23 @@ var ttAD = {
                 res.videoState = 2;
             }
             callback(res);
-        });
+   
+            videoAd.offClose(closeFunc);
+        };
 
-        videoAd.onError(function(err) {
+        videoAd.onClose(closeFunc);
+
+        let errorFunc = function(err) {
             console.log(err.errCode,err.errMsg);
             let res = {};
             res.videoState = 0;
             res.str = str;
             callback(res);
-        });
+            
+            videoAd.offError(errorFunc);
+        };
+
+        videoAd.onError(errorFunc);
     },
 
     createInsert(){

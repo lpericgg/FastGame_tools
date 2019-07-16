@@ -9,6 +9,7 @@
   "npmPath": "",
   "package": "com.zsfz.bzpdz.kyx.nearme.gamecenter",
   "privatePath": "H:\\project\\AdventureTour_2.0.9\\private.pem",
+  "showNpmPath": false,
   "tinyPackageMode": false,
   "tinyPackageServer": "",
   "useDebugKey": false,

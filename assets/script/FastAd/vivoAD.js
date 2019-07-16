@@ -98,12 +98,14 @@ var vivoAD = {
 
     //传入的str  会原样回调给结果
     //读取res.videoState的值  0视频加载失败  1 视频播放完成可以发放奖励  2 视频中途关闭  不发放奖励
-    createVideo(id,callback){
-        console.log("暂未支持激励视频，请不要调用");
-        return;
-        if(!this.allowShowAd())return;
-        if(!qg.createRewardedVideoAd){
-            callback("error");
+    createVideo(id,callback,str){
+        if(qg.getSystemInfoSync().platformVersionCode < 1041 ||　!qg.createRewardedVideoAd){
+            console.log("不支持激励视频", err);
+            let res = {};
+            res.videoState = 0;
+            res.str = str;
+            res.err = err;
+            callback(res);
             return;
         }
         this.videoId = id;

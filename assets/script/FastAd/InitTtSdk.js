@@ -73,13 +73,13 @@ var InitTtSdk = {
     },
 
     // 监听用户点击右上角菜单的“转发”按钮时触发的事件
-    onShareAppMessage(url){
+    onShareAppMessage(title,url){
         // let url = "https://www.zywxgames.com/wx/taxiLife/sharePicture.jpg";
         tt.onShareAppMessage(function (res){
             console.log(res.channel);
             // do something
             return {
-              title: '模拟出租车来啦！！！',
+              title: title,
               imageUrl: url,
               success() {
                 console.log('分享成功')
