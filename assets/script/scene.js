@@ -20,29 +20,29 @@ cc.Class({
     start () {
         Test.outPut();
         // let channel = "vivo";
-        // let channel = "oppo";
-        // ADAdapter.initFastAd(channel,"30097503",true);
+        let channel = "oppo";
+        ADAdapter.initFastAd(channel);
         
         this.banner.on(cc.Node.EventType.TOUCH_END,function(){
-            // ADAdapter.createBanner();
-            window.JavaJsBridge.showBanner();
+            ADAdapter.createBanner();
+            // window.JavaJsBridge.showBanner();
         },this);
 
         this.video.on(cc.Node.EventType.TOUCH_END,function(){
             let str = "test";
-            window.JavaJsBridge.showVideo("testVideo");
-            // ADAdapter.createVideo(function(res){
-            //     console.log(res.videoState);
-            //     console.log(res.str);
-            //     console.log(res.err);
-            // },str);
+            // window.JavaJsBridge.showVideo("testVideo");
+            ADAdapter.createVideo(function(res){
+                console.log(res.videoState);
+                console.log(res.str);
+                console.log(res.err);
+            },str);
         },this);
 
         this.insert.on(cc.Node.EventType.TOUCH_END,function(){
             // ADAdapter.createInsert();
-            window.JavaJsBridge.showInsert("testInsert");
-            // let pro = {scale:0.7};
-            // ADAdapter.createNative(pro);
+            // window.JavaJsBridge.showInsert("testInsert");
+            let pro = {scale:0.7};
+            ADAdapter.createNative(pro);
         
         },this);
 

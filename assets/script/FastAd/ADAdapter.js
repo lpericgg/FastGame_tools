@@ -2,6 +2,7 @@
 var oppoAD = require("oppoAD");
 var vivoAD = require("vivoAD");
 var ttAD = require("ttAD");
+var a4399AD = require("a4399AD");
 var IdConfig = require("IdConfig");  //广告id配置文件
 
 var nowChannel = null;  //当前渠道的名称
@@ -26,6 +27,9 @@ var ADAdapter = {
             break;
             case "tt":
                 this._AdFile = ttAD;
+            break;
+            case "a4399":
+                this._AdFile = a4399AD;
             break;
             default:console.log("平台没有广告，不需要初始化");return;
         }

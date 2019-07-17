@@ -7,10 +7,10 @@
 // appId:后台值，
 const oppo_id = {
     bannerId:"94403",
-    nativeId:"94409",
-    videoId:"94414",
-    insertId:"94407",
-    appId:30122840,
+    nativeId:"89405",
+    videoId:"55801",
+    insertId:"55800",
+    appId:"30074831",
 };
 const vivo_id = {
     bannerId:"079ee95b892e4de6aa1097ac60fb0b07",
@@ -27,5 +27,13 @@ const tt_id = {
     insertId:"not support",
     appId:30122840,
 };
-const IdConfig = {oppo_id,vivo_id,tt_id};
+//4399用不到id值  不用填  告知后台开广告就可以了  
+const a4399_id = {
+    bannerId:"not support",
+    nativeId:"not support",
+    videoId:"not support",
+    insertId:"not support",
+    appId:30122840,
+};
+const IdConfig = {oppo_id,vivo_id,tt_id,a4399_id};
 module.exports = IdConfig;
