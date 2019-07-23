@@ -7,10 +7,10 @@
 // appId:后台值，
 const oppo_id = {
     bannerId:"94403",
-    nativeId:"89405",
+    nativeId:"81917",
     videoId:"55801",
     insertId:"55800",
-    appId:"30074831",
+    appId:"30097503",
 };
 const vivo_id = {
     bannerId:"079ee95b892e4de6aa1097ac60fb0b07",

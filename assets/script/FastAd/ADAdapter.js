@@ -75,11 +75,14 @@ var ADAdapter = {
         this._AdFile.createNative(id,function(res){
             //读取回调的res值  有值表示广告请求成功  无值表示加载失败
             if(res){
-                if(pro)res.adScale = pro.scale || 1;
+                if(pro){
+                    res.adScale = pro.scale || 1;
+                    res.adType = pro.adType || 1;
+                }
                 console.log("res.adScale",res.adScale);
                 let addNativeNode = function(){
                     if(NativeAdComponent.parent)  NativeAdComponent.parent = null;
-                    cc.Canvas.instance.node.addChild(NativeAdComponent,999);    
+                    cc.Canvas.instance.node.addChild(NativeAdComponent,999);  
                     NativeAdComponent.getComponent("NativeAd").initLayer(res);
                 }
                 if(!NativeAdComponent){

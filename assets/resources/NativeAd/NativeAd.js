@@ -10,7 +10,7 @@ var NativeAd = cc.Class({
     initComponent(){
         let self = this;
         self.btn_close = cc.find("btn_close",self.node);
-        self.title = cc.find("title",self.node).getComponent(cc.Label);
+        self.title = cc.find("title",self.node);
 
         self.picture_icon = cc.find("picture_icon",self.node).getComponent(cc.Sprite);
         self.picture_ad = cc.find("picture_ad",self.node).getComponent(cc.Sprite);
@@ -20,6 +20,39 @@ var NativeAd = cc.Class({
         self.btn_clickAd.active = false;  //隐藏点击安装
 
         self.bg_click = cc.find("bg_click",self.node);//
+        self.bg_click_2 = cc.find("bg_2/bg_click_2",self.node);
+
+        self.bg_2 = cc.find("bg_2",self.node);
+    },
+
+    showADType(adType){
+        let self = this;
+        switch(adType){
+            case 1:
+                this.node.color = cc.Color.WHITE;
+                self.bg_2.active = false;
+                self.title.setPosition(cc.v2(0,-90));
+                self.title.getComponent(cc.Label).fontSize = 45;
+                self.btn_close.scale = 0.7;
+                self.btn_close.setPosition(cc.v2(317,284));
+                break;
+            case 2:
+                this.node.color = cc.Color.BLUE;
+                self.bg_2.active = false;
+                self.title.setPosition(cc.v2(0,-90));
+                self.title.getComponent(cc.Label).fontSize = 45;
+                self.btn_close.scale = 0.7;
+                self.btn_close.setPosition(cc.v2(317,284));
+                break;
+            case 3:
+                self.bg_2.active = true;
+                self.title.setPosition(cc.v2(0,428));
+                self.title.getComponent(cc.Label).fontSize = 70;
+                self.btn_close.scale = 1.3;
+                self.btn_close.setPosition(cc.v2(433,522));
+                break;
+            default:break;
+        }
     },
 
     onEnable(){
@@ -27,6 +60,7 @@ var NativeAd = cc.Class({
         self.initComponent();
         self.btn_close.on(cc.Node.EventType.TOUCH_END,self.onClickClose,self);
         self.bg_click.on(cc.Node.EventType.TOUCH_END,self.onClickAd,self);
+        self.bg_click_2.on(cc.Node.EventType.TOUCH_END,self.onClickAd,self);
 
         // var iconUrl = "http://adsfs.oppomobile.com/union/adlogo/o_1512387525231.png";
         // var iconUrl = "http://chuantu.xyz/t6/702/1558945224x992245975.png";
@@ -42,10 +76,12 @@ var NativeAd = cc.Class({
         let self = this;
         self.btn_close.off(cc.Node.EventType.TOUCH_END,self.onClickClose,self);
         self.bg_click.on(cc.Node.EventType.TOUCH_END,self.onClickAd,self);
+        self.bg_click_2.off(cc.Node.EventType.TOUCH_END,self.onClickAd,self);
     },
 
     onClickAd(){
         oppoAD.clickNativeAd(this.adId);
+        this.onClickClose();
     },
 
     onClickClose(){
@@ -55,6 +91,7 @@ var NativeAd = cc.Class({
     //如果界面过大  传入res.adScale值
     initLayer(res){
         let self = this;
+        this.showADType(res.adType);
         // adId	string	广告标识，用来上报曝光与点击
         // title	string	广告标题
         // desc	string	广告描述
@@ -79,7 +116,7 @@ var NativeAd = cc.Class({
 
         self.adId = res.adList[0].adId;
 
-        self.title.string = res.adList[0].title;
+        self.title.getComponent(cc.Label).string = res.adList[0].title;
         self.ad_desc.string = res.adList[0].desc;
         self.clickBtnTxt.string = res.adList[0].clickBtnTxt;
 

@@ -7,12 +7,12 @@
   "minPlatformVersion": "1040",
   "name": "笨拙攀登者",
   "npmPath": "",
-  "package": "com.ayjjs.zsfz.kyx.nearme.gamecenter",
+  "package": "com.zsfz.bzpdz.kyx.nearme.gamecenter",
   "privatePath": "H:\\project\\AdventureTour_2.0.9\\private.pem",
   "showNpmPath": false,
   "tinyPackageMode": false,
   "tinyPackageServer": "",
   "useDebugKey": false,
-  "versionCode": "3",
-  "versionName": "3.0"
+  "versionCode": "4",
+  "versionName": "4.0"
 }
