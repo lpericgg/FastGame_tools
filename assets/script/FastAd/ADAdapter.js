@@ -53,6 +53,11 @@ var ADAdapter = {
         this._AdFile.createBanner(id,width);
     },
 
+    hideBanner(){
+        if(!this.alreadyInit()) return;
+        this._AdFile.hideBanner();
+    },
+
     createInsert(){
         if(!this.alreadyInit()) return;
         let id = IdConfig[nowChannel + "_id"].insertId;

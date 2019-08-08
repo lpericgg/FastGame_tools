@@ -60,6 +60,14 @@ var oppoAD = {
         bannerAd.show();
     },
 
+    hideBanner(){
+      if(!bannerAd){
+        console.log("请先调用createBanner");
+        return;
+      }
+      bannerAd.hide();
+    },
+
     createInsert(id){
         if(!initAdSuccess){
           console.log("请先调用initAD 初始化广告");

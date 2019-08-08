@@ -33,13 +33,13 @@ cc.Class({
         this.video.on(cc.Node.EventType.TOUCH_END,function(){
             let str = "test";
             // window.JavaJsBridge.showVideo("testVideo");
-            // ADAdapter.createVideo(function(res){
-            //     console.log(res.videoState);
-            //     console.log(res.str);
-            //     console.log(res.err);
-            // },str);
-            let pro = {scale:0.6,adType:2};
-            ADAdapter.createNative(pro,"NativeAd/NativeAd_1");
+            ADAdapter.createVideo(function(res){
+                console.log(res.videoState);
+                console.log(res.str);
+                console.log(res.err);
+            },str);
+            // let pro = {scale:0.6,adType:2};
+            // ADAdapter.createNative(pro,"NativeAd/NativeAd_1");
         },this);
 
         this.insert.on(cc.Node.EventType.TOUCH_END,function(){

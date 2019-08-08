@@ -46,10 +46,10 @@ var NativeAd = cc.Class({
                 break;
             case 3:
                 self.bg_2.active = true;
-                self.title.setPosition(cc.v2(0,428));
+                self.title.setPosition(cc.v2(0,468));
                 self.title.getComponent(cc.Label).fontSize = 70;
                 self.btn_close.scale = 1.3;
-                self.btn_close.setPosition(cc.v2(433,522));
+                self.btn_close.setPosition(cc.v2(-433,562));
                 break;
             default:break;
         }

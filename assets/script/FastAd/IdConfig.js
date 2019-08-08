@@ -10,7 +10,7 @@ const oppo_id = {
     nativeId:"81917",
     videoId:"55801",
     insertId:"55800",
-    appId:"30097503",
+    appId:"30074831",
 };
 const vivo_id = {
     bannerId:"079ee95b892e4de6aa1097ac60fb0b07",
