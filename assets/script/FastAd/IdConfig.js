@@ -9,6 +9,8 @@ const oppo_id = {
     bannerId:"94403",
     nativeId:"81917",
     videoId:"55801",
+    videoId2:"114042",
+    videoId3:"114043",
     insertId:"55800",
     appId:"30074831",
 };
@@ -35,5 +37,12 @@ const a4399_id = {
     insertId:"not support",
     appId:30122840,
 };
-const IdConfig = {oppo_id,vivo_id,tt_id,a4399_id};
+
+const qq_id = {
+    bannerId:"bd784a022056294c5ea5d120a9297a7b",
+    nativeId:"not support",
+    videoId:"d709b98f29ab568e608169313e14beb7",
+    insertId:"not support"
+};
+const IdConfig = {oppo_id,vivo_id,tt_id,a4399_id,qq_id};
 module.exports = IdConfig;

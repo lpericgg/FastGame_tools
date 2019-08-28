@@ -1,0 +1,12 @@
+{
+  "name": "hello-world",
+  "version": "0.0.1",
+  "description": "eric_gg第一个扩展包",
+  "author": "eric_gg",
+  "main": "main.js",
+  "main-menu": {
+    "Packages/myTest": {
+      "message": "hello-world:say-hello"
+    }
+  }
+}

@@ -3,6 +3,7 @@ var oppoAD = require("oppoAD");
 var vivoAD = require("vivoAD");
 var ttAD = require("ttAD");
 var a4399AD = require("a4399AD");
+var qqAD = require("qqAD");
 var IdConfig = require("IdConfig");  //广告id配置文件
 
 var nowChannel = null;  //当前渠道的名称
@@ -29,6 +30,14 @@ var ADAdapter = {
                 this._AdFile = ttAD;
             break;
             case "a4399":
+                this._AdFile = ttAD;
+            break;
+            case "qq":
+                qqAD.initAD();
+                this._AdFile = qqAD;
+                nowChannel = "qq";
+            break;
+            case "a4399":
                 this._AdFile = a4399AD;
             break;
             default:console.log("平台没有广告，不需要初始化");return;
@@ -53,11 +62,6 @@ var ADAdapter = {
         this._AdFile.createBanner(id,width);
     },
 
-    hideBanner(){
-        if(!this.alreadyInit()) return;
-        this._AdFile.hideBanner();
-    },
-
     createInsert(){
         if(!this.alreadyInit()) return;
         let id = IdConfig[nowChannel + "_id"].insertId;
@@ -65,7 +69,7 @@ var ADAdapter = {
     },
     
     //传入的str  会原样回调给结果   可不传
-    //读取res.videoState的值  0视频加载失败  1 视频播放完成可以发放奖励  2 视频中途关闭  不发放奖励
+    //读取res.videoState的值  0视频加载失败  1 视频播放完成可以发放奖励  2 视频中途关闭  不发放奖励   3没有视频广告了
     //读取res.err获得加载失败的错误信息
     createVideo(callback,str){
         if(!this.alreadyInit()) return;
@@ -80,14 +84,11 @@ var ADAdapter = {
         this._AdFile.createNative(id,function(res){
             //读取回调的res值  有值表示广告请求成功  无值表示加载失败
             if(res){
-                if(pro){
-                    res.adScale = pro.scale || 1;
-                    res.adType = pro.adType || 1;
-                }
+                if(pro)res.adScale = pro.scale || 1;
                 console.log("res.adScale",res.adScale);
                 let addNativeNode = function(){
                     if(NativeAdComponent.parent)  NativeAdComponent.parent = null;
-                    cc.Canvas.instance.node.addChild(NativeAdComponent,999);  
+                    cc.Canvas.instance.node.addChild(NativeAdComponent,999);    
                     NativeAdComponent.getComponent("NativeAd").initLayer(res);
                 }
                 if(!NativeAdComponent){
