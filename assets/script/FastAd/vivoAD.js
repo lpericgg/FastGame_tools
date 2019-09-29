@@ -34,25 +34,9 @@ var vivoAD = {
             posId: this.bannerId,
             style: {}
         });
-        bannerAd.show();
+        var adShow = bannerAd && bannerAd.show();
         bannerAd.onError(function (err) {
             console.log("banner加载失败",err);
-        });
-    },
-
-    showBanner(){
-        if(!bannerAd){
-            console.log("请先调用createBanner创建广告");
-            return;
-        }
-        bannerAd.show();
-
-        bannerAd.onLoad(function () {
-            console.log('Banner广告加载成功');
-            bannerAd.show();
-        });
-        bannerAd.onError(function (err) {
-            console.log(err);
         });
     },
 
@@ -61,7 +45,7 @@ var vivoAD = {
             console.log("请先调用createBanner创建广告");
             return;
         }
-        bannerAd.hide()
+        var adHide = bannerAd && bannerAd.hide()
     },
 
     createInsert(id){
@@ -71,36 +55,23 @@ var vivoAD = {
             posId: this.insertId
         });
 
-        interstitialAd.show();
-        //失败重新拉取
-        interstitialAd.show().catch(function (err) {
-            interstitialAd.load().then(function () {
-                interstitialAd.show()
-            });
-        });
-   
-        interstitialAd.onLoad(function () {
-            console.log('插屏广告加载成功');
-        },this);
+        var adShow = interstitialAd && interstitialAd.show();
 
-        interstitialAd.show().then(function () {
-            console.log('插屏广告显示');
-        },this);
-
-        interstitialAd.onClose(function(){
-
-        },this);
-
-        interstitialAd.onError(function (err) {
-            console.log(err);
-        },this);
+        var func = function (err) {
+            // do something
+            console.log("插屏广告加载失败",err);
+            // 取消监听
+            interstitialAd.offError(func);
+        };
+        // 开始监听
+        interstitialAd.onError(func);
     },
 
     //传入的str  会原样回调给结果
     //读取res.videoState的值  0视频加载失败  1 视频播放完成可以发放奖励  2 视频中途关闭  不发放奖励
     createVideo(id,callback,str){
         if(qg.getSystemInfoSync().platformVersionCode < 1041 ||　!qg.createRewardedVideoAd){
-            console.log("不支持激励视频", err);
+            console.log("不支持激励视频");
             let res = {};
             res.videoState = 0;
             res.str = str;
@@ -114,7 +85,8 @@ var vivoAD = {
                 posId: this.videoId
             });
         }
-        rewardedVideoAd.load().then(() => {
+        var adShow = rewardedVideoAd && rewardedVideoAd.load();
+        adShow && adShow.then(() => {
                 console.log("激励视频广告加载成功");
                 rewardedVideoAd.show().then(() => {
                     console.log("激励视频广告显示成功");
@@ -123,19 +95,22 @@ var vivoAD = {
                 });
             }).catch(err => {
                 console.log("激励视频广告加载失败", err);
-            });
+        });
        
-    
-        rewardedVideoAd.onError(err => {
-                console.log("激励视频异常", err);
-                let res = {};
-                res.videoState = 0;
-                res.str = str;
-                res.err = err;
-                callback(res);
-            });
+        let errorFun = function(err){
+            console.log("激励视频异常", err);
+            let res = {};
+            res.videoState = 0;
+            res.str = str;
+            res.err = err;
+            callback(res);
+            rewardedVideoAd.offError(errorFun);
+        };
+        rewardedVideoAd.onError(errorFun);
 
-        rewardedVideoAd.onClose(res => {
+        let closeFun = function(res){
+            // MainGameManager.instance.getView().node.emit("UPDATE_MUSIC_STATE");
+            res.str = str;
             if (res && res.isEnded) {
                 console.log("正常播放结束，可以下发游戏奖励");
                 res.videoState = 1;
@@ -144,11 +119,47 @@ var vivoAD = {
                 console.log("播放中途退出，不下发游戏奖励");
             }
             callback(res);
-        });
+            rewardedVideoAd.offClose(closeFun);
+        }
+
+        rewardedVideoAd.onClose(closeFun);
     },
 
     createNative(id,callback){
         console.log("暂未支持原生广告，请不要调用");
+    },
+
+    ifHaveDeskIcon(callback){
+        let fun1 = function(res){
+            callback(res);
+        };
+        qg.hasShortcutInstalled({
+            success: function(status) {
+              if(status) {
+                console.log('已创建')
+                fun1(1);
+              }else{
+                console.log('未创建')
+                fun1(0);
+              }
+            }
+        });
+    },
+
+    ifCreateIconSuccess(callback){
+        let fun1 = function(res){
+            callback(res);
+        };
+        qg.installShortcut({
+            success: function() {
+                console.log('创建成功');
+                fun1(1);
+            },
+            fail:function(){
+                console.log('创建失败');
+                fun1(0);
+            },
+        });
     },
 };
 module.exports = vivoAD;

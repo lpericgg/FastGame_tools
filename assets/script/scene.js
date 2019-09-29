@@ -55,6 +55,38 @@ cc.Class({
         },this);
     },
 
+    onClickAddCoin(){
+        let self = this;
+        qg.hasShortcutInstalled({
+            success: function(res) {
+                // 判断图标未存在时，创建图标
+                if(res == false){
+                    qg.installShortcut({
+                        success: function() {
+                            // 执行用户创建图标奖励
+                            console.log("请求创建桌面图标");
+                            qg.installShortcut({
+                                success: function(res){
+                                    console.log("创建桌面图标成功");
+                                },
+                                fail: function(res){
+                                    console.log("创建桌面图标失败",res);
+                                },
+                                complete:function(res){
+                                    console.log("创建桌面图标完成",res);
+                                },
+                            });
+                        },
+                        fail: function(err) {console.log("请求创建桌面图标失败");},
+                        complete: function() {console.log("请求创建桌面图标完成");}
+                    })
+                }
+            },
+            fail: function(err) {},
+            complete: function() {}
+        })
+    },
+
     resetAd(){
 
     }

@@ -5,19 +5,6 @@ var qqAD = {
 
     bannerId:null,
     videoId:null,
-    initAD(){
-        qq.updateShareMenu({
-            withShareTicket: true
-        });
-        qq.showShareMenu({
-            showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
-        });
-        let url = "https://www.zywxgames.com/wx/zznc/sharePic.jpg";
-        qq.onShareAppMessage(() => ({
-            title: '珍珠配奶茶',
-            imageUrl: url // 图片 URL
-        }));
-    },
 
     createBanner(id,width){
         this.bannerId = id;

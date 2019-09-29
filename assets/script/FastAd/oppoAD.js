@@ -129,6 +129,9 @@ var oppoAD = {
 
         videoAd.onError(function(err) {
           console.log(err);
+          for (let i in err){
+            console.log(i,err[i]);
+          }
           let res = {};
           res.videoState = 0;
           res.str = str;

@@ -15,9 +15,41 @@ var InitTtSdk = {
         });
     },
 
-    //显示当前页面的转发按钮  并登录
+    reportQuitGame(){
+        tt.exitMiniProgram({
+            success (res) {
+                console.log(`exitMiniProgram调用成功`);
+            },
+            fail (res) {
+                console.log(`exitMiniProgram调用失败`);
+            },
+            complete() {
+                console.log(`exitMiniProgram调用完成`);
+            }
+        });
+    },
+
+    reportAnalytics(args){
+        // let args = {name:"quitGame",data_1:5,data_2:5};
+        console.log("触发埋点事件");
+        for (let i in args){
+            console.log(i,args[i]);
+        }
+        tt.reportAnalytics(args.name, {
+            data_1: args.data_1,
+            data_2: args.data_2,
+        });
+    },
+
+    //显示当前页面的转发按钮  并埋点退出游戏
     showShareMenu(){
-        tt.showShareMenu();
+        tt.showShareMenu(); 
+
+        let onHideFun = function(){
+            let args = {name:"quitGame",data_1:cc.sys.localStorage.getItem("GameLevel")};
+            this.reportAnalytics(args);
+        }.bind(this);
+        tt.onHide(onHideFun);
     },
 
     //隐藏菜单的分享按钮
@@ -25,8 +57,8 @@ var InitTtSdk = {
         tt.hideShareMenu();
     },
 
-    //开始录屏  回调监听录屏开始和结束 
-    startRecordScreen(time,callback){
+    //开始自动录屏  回调监听录屏开始和结束 
+    startAutoRecordScreen(time,callback){
         if(!recorder) recorder = tt.getGameRecorderManager();
         recorder.start({
             duration: time || 15,
@@ -45,10 +77,40 @@ var InitTtSdk = {
         })
     },
 
+    //开始手动录屏  与endRecordScreen配合使用
+    startRecordScreen(callback,time){
+        if(!recorder) recorder = tt.getGameRecorderManager();
+
+        recorder.start({
+            duration: time || 300,
+        });
+
+        recorder.onStart(res =>{
+            this.showToast("开始录屏",2000);
+            if(callback)
+                callback("start");
+        });
+    },
+
+    endRecordScreen(callback){
+        if(!recorder) recorder = tt.getGameRecorderManager();
+
+        recorder.onStop(res =>{
+            console.log(res.videoPath);
+            this._videoPath = res.videoPath;
+            this.showToast("录屏结束",2000);
+            if(callback)
+                callback("end");
+        });
+        
+        recorder.stop();
+    },
+
     //分享视频，传入分享视频的标题
     shareVideo(title,callback){
         if(!this._videoPath){
             console.log("未录制视频不能调用分享");
+            callback(0);
         }
         let pro = {
             channel:"video",

@@ -33,12 +33,8 @@ var ADAdapter = {
                 this._AdFile = ttAD;
             break;
             case "qq":
-                qqAD.initAD();
                 this._AdFile = qqAD;
                 nowChannel = "qq";
-            break;
-            case "a4399":
-                this._AdFile = a4399AD;
             break;
             default:console.log("平台没有广告，不需要初始化");return;
         }
@@ -59,22 +55,38 @@ var ADAdapter = {
     createBanner(width){
         if(!this.alreadyInit()) return;
         let id = IdConfig[nowChannel + "_id"].bannerId;
-        this._AdFile.createBanner(id,width);
+        try{
+            this._AdFile.createBanner(id,width);
+        }
+        catch(err){
+            console.log(err);
+        }
     },
 
     createInsert(){
         if(!this.alreadyInit()) return;
         let id = IdConfig[nowChannel + "_id"].insertId;
-        this._AdFile.createInsert(id);
+        try{
+            this._AdFile.createInsert(id);
+        }
+        catch(err){
+            console.log(err);
+        }
     },
     
     //传入的str  会原样回调给结果   可不传
     //读取res.videoState的值  0视频加载失败  1 视频播放完成可以发放奖励  2 视频中途关闭  不发放奖励   3没有视频广告了
     //读取res.err获得加载失败的错误信息
-    createVideo(callback,str){
+    createVideo(callback,str,adIndex){
         if(!this.alreadyInit()) return;
-        let id = IdConfig[nowChannel + "_id"].videoId;
-        this._AdFile.createVideo(id,callback,str);
+        if(!adIndex) adIndex = "";
+        let id = IdConfig[nowChannel + "_id"]["videoId" + adIndex];
+        try{
+            this._AdFile.createVideo(id,callback,str);
+        }
+        catch(err){
+            console.log(err);
+        }
     },
 
     // pro广告节点的可修改参数   group://如果是camera多层次渲染  将此节点的group设置为最高层摄像机渲染   scale :节点缩放  默认为1
@@ -109,6 +121,14 @@ var ADAdapter = {
             }
         });
     },
+
+    ifHaveDeskIcon(callback){
+        this._AdFile.ifHaveDeskIcon(callback);
+    },
+
+    ifCreateIconSuccess(callback){
+        this._AdFile.ifCreateIconSuccess(callback);
+    },
 };
 module.exports = ADAdapter;
 
@@ -135,5 +155,36 @@ updateBanner(){
         this.showBannerAd();
     }
 },
+
+    vivoBackGround(){
+        let self = this;
+        self.vivoVideoTime = false; //检测是否在播放视频   vivo进入视频需要关声音
+        var hidef = function () {
+            console.log('game enter background')
+            cc.audioEngine.stopAllEffects();
+            // qg.offHide(hidef)
+        };
+        qg.onHide(hidef);
+
+        var showf = function () {
+            console.log('game enter foreground')
+            if(!self.vivoVideoTime){      //进入前台后如果是在播放视频   就开启音乐   否则关闭所有音乐  从新走背景音乐开关流程   避免之前音乐未释放播出的声音
+                cc.audioEngine.stopAllEffects();
+                cc.audioEngine.playMusic(self.bgm,true);
+                self.updateMusicState();
+            }
+            // qg.offShow(showf);
+        }.bind(self);
+        qg.onShow(showf);
+    },
+
+    //播放视频回调后调用   修改参数  从新走背景音乐开关流程
+    vivoVideoFun(){
+        let self = this;
+        self.vivoVideoTime = false;
+        cc.audioEngine.stopAllEffects();
+        cc.audioEngine.playMusic(self.bgm,true);
+        self.updateMusicState();
+    },
 
 */
