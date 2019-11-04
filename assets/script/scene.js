@@ -1,6 +1,7 @@
 //todo eric_gg
 import Test from "./Test";
-var ADAdapter = require("ADAdapter")
+var ADAdapter = require("ADAdapter");
+var MainGameManager = require("MainGameManager");
 var NativeAdComponent = null;
 cc.Class({
     extends: cc.Component,
@@ -11,16 +12,46 @@ cc.Class({
         insert:cc.Node,
 
         nextScene:cc.Node,
+
+        play:cc.Node,
+        map:cc.Node,
+        camera:cc.Node,
+
     },
+
+    onEnable(){
+        let self = this;
+        self.map.on(cc.Node.EventType.TOUCH_END,function(event){
+            let self = this;
+            let touch = event.getLocation();
+            let pos1 = self.node.convertToNodeSpaceAR(touch);
+            pos1.x +=  self.camera.x;
+            pos1.y +=  self.camera.y;
+            self.play.setPosition(pos1);
+        },self);
+        self.map.on(cc.Node.EventType.TOUCH_MOVE,function(event){
+            console.log(event.getDelta());
+            self.camera.x += event.getDelta().x;
+            self.camera.y += event.getDelta().y;
+        },self);
+
+        cc.find("adbg",self.map).on(cc.Node.EventType.TOUCH_START,function(){
+            console.log("黄浦江后女偶陪你八婆前");
+        },self);    
+    },
+
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        MainGameManager.instance.setView(this);
+    },
 
     start () {
         Test.outPut();
         // let channel = "vivo";
-        let channel = "oppo";
+        // let channel = "oppo";
+        let channel = "debug";
         ADAdapter.initFastAd(channel,true);
         
         this.banner.on(cc.Node.EventType.TOUCH_END,function(){

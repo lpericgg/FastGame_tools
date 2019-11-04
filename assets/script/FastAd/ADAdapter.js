@@ -30,7 +30,7 @@ var ADAdapter = {
                 this._AdFile = ttAD;
             break;
             case "a4399":
-                this._AdFile = ttAD;
+                this._AdFile = a4399AD;
             break;
             case "qq":
                 this._AdFile = qqAD;
@@ -77,6 +77,7 @@ var ADAdapter = {
     //传入的str  会原样回调给结果   可不传
     //读取res.videoState的值  0视频加载失败  1 视频播放完成可以发放奖励  2 视频中途关闭  不发放奖励   3没有视频广告了
     //读取res.err获得加载失败的错误信息
+    //adIndex可改变传入的广告id值   默认为空，可不传
     createVideo(callback,str,adIndex){
         if(!this.alreadyInit()) return;
         if(!adIndex) adIndex = "";
