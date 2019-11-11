@@ -122,6 +122,17 @@ var ADAdapter = {
             }
         });
     },
+    
+    clickNativeAd(id){
+        if(!this.alreadyInit()) return;
+        try {
+            console.log("点击原生广告");
+            this._AdFile.clickNativeAd(id);
+        }
+        catch(err){
+            console.log(err);
+        }
+    },
 
     ifHaveDeskIcon(callback){
         this._AdFile.ifHaveDeskIcon(callback);

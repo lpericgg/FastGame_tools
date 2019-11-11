@@ -65,7 +65,7 @@ var oppoAD = {
         console.log("请先调用createBanner");
         return;
       }
-      bannerAd.hide();
+      bannerAd.destroy();
     },
 
     createInsert(id){
@@ -170,5 +170,44 @@ var oppoAD = {
           adId: id
         });
     },
+
+    ifHaveDeskIcon(callback){
+      let fun1 = function(res){
+          callback(res);
+      };
+      qg.hasShortcutInstalled({
+        success: function(res) {
+            // 判断图标未存在时，创建图标
+            if(res == false){
+              console.log('未创建')
+              fun1(0);
+            }
+            else{
+              console.log('已创建')
+              fun1(1);
+            }
+        },
+        fail: function(err) {},
+        complete: function() {}
+    })
+  },
+
+  ifCreateIconSuccess(callback){
+      let fun1 = function(res){
+          callback(res);
+      };
+      qg.installShortcut({
+        success: function() {
+            // 执行用户创建图标奖励
+            console.log('创建成功');
+            fun1(1);
+        },
+        fail: function(err) {
+          console.log('创建失败');
+          fun1(0);
+        },
+        complete: function() {}
+    })
+  },
 };
 module.exports = oppoAD;

@@ -1,5 +1,5 @@
 //todo eric_gg
-var oppoAD = require("oppoAD");
+var ADAdapter = require("ADAdapter");
 var NativeAd = cc.Class({
     extends: cc.Component,
 
@@ -75,12 +75,12 @@ var NativeAd = cc.Class({
     onDisable(){
         let self = this;
         self.btn_close.off(cc.Node.EventType.TOUCH_END,self.onClickClose,self);
-        self.bg_click.on(cc.Node.EventType.TOUCH_END,self.onClickAd,self);
+        self.bg_click.off(cc.Node.EventType.TOUCH_END,self.onClickAd,self);
         self.bg_click_2.off(cc.Node.EventType.TOUCH_END,self.onClickAd,self);
     },
 
     onClickAd(){
-        oppoAD.clickNativeAd(this.adId);
+        ADAdapter.clickNativeAd(this.adId);
         this.onClickClose();
     },
 
